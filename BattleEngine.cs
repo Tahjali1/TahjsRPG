@@ -89,19 +89,41 @@ namespace Engine
             int attackRoll = RandomNumberGenerator.NumberBetween(0, 20) +
                          StatisticsCalculator.AbilityScoreCalculator(CurrentPlayer.Dexterity);
             
-            if (attackRoll > CurrentMonster.ArmorClass)
+            
+            //Perhaps checking that attackRoll is never greater than 30, else set it equal to 30
+            if(attackRoll <=30)
             {
-                return true;
+                if (attackRoll > CurrentMonster.ArmorClass)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                attackRoll = 30
+                if (attackRoll > CurrentMonster.ArmorClass)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
+            
         }
 
 
+        //I want to modify this function such that Weapon damage is doubled when the d20 roll is a 20
+        //I probably need to make a local variable in PlayerAccuracyCalculations to hold the roll, then call it here. 
+        //Then, I'd make a check for whether or not it was a nat20
         public void PlayerAttackDamageCalculation()
         {
+
             int damageDealtToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage) 
                                        + StatisticsCalculator.AbilityScoreCalculator(CurrentPlayer.Strength);
             PlayerAttackSuccessNotification(damageDealtToMonster);
@@ -136,12 +158,13 @@ namespace Engine
             }
         }
 
-        public bool MonsterAccuracyCalculation()
+        //I want to see if I can abstract this. PlayerAccuracyCalculation and MonsterAccuracyCalculation are 99% the same
+        public bool MonsterAccuracyCalculation(//Maybe have this take a Player CurrentPlayer and Monster CurrentMonster object?)
         {
             int attackRoll = RandomNumberGenerator.NumberBetween(0, 20) +
                              StatisticsCalculator.AbilityScoreCalculator(CurrentPlayer.Dexterity);
             
-            if (attackRoll > CurrentPlayer.ArmorClass)
+            if (attackRoll > CurrentPlayer.ArmorClass //This is what I need to see if I can abstract)
             {
                 return true;
             }
