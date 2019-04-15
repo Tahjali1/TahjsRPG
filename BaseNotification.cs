@@ -87,6 +87,8 @@ namespace Engine
         }
 
         //Quest Messages
+        //I should add some guard clauses here to check that the arguments are actual strings, and that they are separated by spaces
+        //I should also add some output to the console(?) for the case when the function runs properly
 
         protected void QuestAcceptanceNotification(string questName, string questDescription)
         {
@@ -128,6 +130,10 @@ namespace Engine
 
 
         //Battle Messages
+        //I should add some guard clauses here to check that the arguments are actual strings, and that they are separated by spaces
+        //I should also add some output to the console(?) for the case when the function runs properly
+        
+        //This function should check that CurrentMonster is not null (and raise an exception if it is) before running
         protected void MonsterEncounteredNotification()
         {
             RaiseMessage($"\rA {CurrentMonster.Name} appears!");
@@ -138,38 +144,46 @@ namespace Engine
             RaiseMessage("You must select a weapon to fight with.");
             return;
         }
-
+        
+        //This function should check if CurrentMonster is not null (and raise an exception if it is) before running. 
         protected void PlayerAttackSuccessNotification(int damageDealtToMonster)
         {
             RaiseMessage($"\rYou hit {CurrentMonster.Name} for {damageDealtToMonster} points of damage!");
         }
         
+        //This function should check that both CurrentWeapon != null && CurrentWeapon.Name != null before running
         protected void PlayerAttackFailureNotification()
         {
             RaiseMessage($"\rYou attack with your {CurrentWeapon.Name}, but the attack missed!");
         }
 
+        //This function should check if CurrentMonster is not null (and raise an exception if it is) before running. 
         protected void MonsterAttackSuccessNotification(int damageDealtToPlayer)
         {
             RaiseMessage(($"{CurrentMonster.Name} lunges forward and attacks for {damageDealtToPlayer} damage!"));
         }
 
+        //This function should check if CurrentMonster is not null (and raise an exception if it is) before running. 
         protected void MonsterAttackFailureNotification()
         {
             RaiseMessage($"\rThe {CurrentMonster.Name}'s attack missed!");
         }
 
+        //This function should check if CurrentPlayer.CurrentHitpoints <= 0 && CurrentPlayer.IsDead = true before running
         protected void OnCurrentPlayerKilledNotification(object sender, System.EventArgs eventArgs)
         {
             RaiseMessage($"\rYour fight left you heavily wounded. You limp back to the safety of your home.");
         }
 
+        //This function should check if CurrentMonster.CurrentHitpoints <= 0 && CurrentMonster.IsDead = true before running
         protected void OnCurrentMonsterKilledNotification(object sender, System.EventArgs eventArgs)
         {
             RaiseMessage($"\rYou defeated the enemy!");
 
         }
 
+        //This function should check if CurrentMonster.RewardExperiencePoints, CurrentMonster.Gold, and CurrentMonster.RewardItems
+        //are all !null before running
         protected void MonsterLootPayoutNotification()
         {
             RaiseMessage($"You receive {CurrentMonster.RewardExperiencePoints} experience points, " +
